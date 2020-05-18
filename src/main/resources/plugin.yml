@@ -1,0 +1,6 @@
+name: "FineBot"
+author: "haojie"
+version: "0.1.0"
+main: "com.aoyouer.dev.FineBot"
+info: ""
+depends: []
