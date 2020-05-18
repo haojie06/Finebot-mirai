@@ -1,5 +1,12 @@
-version: "2.0"
+Version: '2.0'
 WelcomeMap:
-  "981460659": "加入Fineserver，请遵守群规以及问卷中提到的内容，文明友善游戏。\n 自动添加白名单功能还未完成所以请@群主添加白名单。
-  \n 游戏线路: \n 上海:sh.finemc.life:19132 \n 杭州:hz.finemc.life:19132\n 香港: hk.finemc.life:19132"
-  "467102679": "欢迎加入审核群"
+  '981460659': "欢迎加入Fineserver，请遵守群规以及问卷中提到的内容，文明友善游戏。\n 自动添加白名单功能还未完成所以请@群主添加白名单。\
+    \ \n 游戏线路: \n 上海:sh.finemc.life:19132 \n 杭州:hz.finemc.life:19132\n 香港: hk.finemc.life:19132"
+  '467102679': 欢迎加入审核群
+Admin:
+- 1092674760
+McPing: sh.finemc.life:19132
+McPingTemplate: |-
+  Fineserver在线查询
+  在线人数{online}/{max}
+  游戏版本:{version}
