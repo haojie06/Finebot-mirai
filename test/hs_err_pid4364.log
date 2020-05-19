@@ -1,0 +1,35 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_STACK_OVERFLOW (0xc00000fd) at pc=0x000000005ce1bfa8, pid=4364, tid=23136
+#
+# JRE version: Java(TM) SE Runtime Environment (10.0.1+10) (build 10.0.1+10)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (10.0.1+10, mixed mode, tiered, compressed oops, g1 gc, windows-amd64)
+# Problematic frame:
+# V  [jvm.dll+0x36bfa8]
+#
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dfile.encoding=UTF-8 -Duser.country=CN -Duser.language=zh -Duser.variant mirai.RunMirai + +
+
+Host: Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz, 4 cores, 7G,  Windows 10 , 64 bit Build 18362 (10.0.18362.329)
+Time: Tue May 19 10:17:09 2020 ?D1¨²¡À¨º¡Á?¨º¡À?? elapsed time: 43127 seconds (0d 11h 58m 47s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000018ef6c97800):  JavaThread "AWT-Shutdown" [_thread_in_vm, id=23136, stack(0x000000490f600000,0x000000490f700000)]
+
+Stack: [0x000000490f600000,0x000000490f700000],  sp=0x000000490f6ff790,  free space=1021k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x36bfa8]
+V  [jvm.dll+0x5a0292]
+V  [jvm.dll+0x36c96a]
+V  [jvm.dll+0x36cbf7]
+V  [jvm.dll+0x3dbb2d]
+V  [jvm.dll+0x68bb6f]

@@ -24,13 +24,17 @@ val miraiConsoleVersion = "+" // 0.5.1
 
 dependencies {
     compileOnly(kotlin("stdlib-jdk8"))
+    compile("org.slf4j:slf4j-simple:1.6.1")
     compileOnly("net.mamoe:mirai-core:$miraiCoreVersion")
     compileOnly("net.mamoe:mirai-console:$miraiConsoleVersion")
-
+    compile("com.google.code.gson:gson:2.8.6")
+    compile("org.java-websocket:Java-WebSocket:1.5.1")
+    compileOnly("junit:junit:4.13")
     testImplementation(kotlin("stdlib-jdk8"))
     testImplementation("net.mamoe:mirai-core:$miraiCoreVersion")
     testImplementation("net.mamoe:mirai-core-qqandroid:$miraiCoreVersion")
     testImplementation("net.mamoe:mirai-console:$miraiConsoleVersion")
+
 }
 
 java {

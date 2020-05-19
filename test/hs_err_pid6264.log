@@ -1,0 +1,177 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 132120576 bytes for Failed to commit area from 0x0000000082200000 to 0x000000008a000000 of length 132120576.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (t:/workspace/open/src/hotspot/os/windows/os_windows.cpp:3221), pid=6264, tid=21192
+#
+# JRE version:  (10.0.1+10) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (10.0.1+10, mixed mode, aot, tiered, compressed oops, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dfile.encoding=UTF-8 -Duser.country=CN -Duser.language=zh -Duser.variant mirai.RunMirai + +
+
+Host: Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz, 4 cores, 7G,  Windows 10 , 64 bit Build 18362 (10.0.18362.329)
+Time: Tue May 19 10:12:58 2020 ?D1ú±ê×?ê±?? elapsed time: 0 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000001b9557a0000):  JavaThread "Unknown thread" [_thread_in_vm, id=21192, stack(0x000000b37ea00000,0x000000b37eb00000)]
+
+Stack: [0x000000b37ea00000,0x000000b37eb00000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x5a0369]
+V  [jvm.dll+0x6bcf81]
+V  [jvm.dll+0x6be176]
+V  [jvm.dll+0x6be803]
+V  [jvm.dll+0x234998]
+V  [jvm.dll+0x59dc74]
+V  [jvm.dll+0x592ab5]
+V  [jvm.dll+0x2f625b]
+V  [jvm.dll+0x2f61c5]
+V  [jvm.dll+0x2f60a2]
+V  [jvm.dll+0x2f8286]
+V  [jvm.dll+0x3440d3]
+V  [jvm.dll+0x3447e6]
+V  [jvm.dll+0x3441d3]
+V  [jvm.dll+0x2c43b8]
+V  [jvm.dll+0x2c5501]
+V  [jvm.dll+0x69d33b]
+V  [jvm.dll+0x69eb5c]
+V  [jvm.dll+0x351849]
+V  [jvm.dll+0x6859c2]
+V  [jvm.dll+0x3ba0a3]
+V  [jvm.dll+0x3bc201]
+C  [java.exe+0x3531]
+C  [java.exe+0xe1af]
+C  [java.exe+0xe356]
+C  [KERNEL32.DLL+0x17bd4]
+C  [ntdll.dll+0x6ced1]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x000001b9555d57b0, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x000001b9557b9800 GCTaskThread "GC Thread#0" [stack: 0x000000b37eb00000,0x000000b37ec00000] [id=16648]
+  0x000001b9557bb000 GCTaskThread "GC Thread#1" [stack: 0x000000b37ec00000,0x000000b37ed00000] [id=12480]
+  0x000001b9557bc800 GCTaskThread "GC Thread#2" [stack: 0x000000b37ed00000,0x000000b37ee00000] [id=20580]
+  0x000001b9557bf800 GCTaskThread "GC Thread#3" [stack: 0x000000b37ee00000,0x000000b37ef00000] [id=18224]
+  0x000001b955831800 ConcurrentGCThread "G1 Main Marker" [stack: 0x000000b37ef00000,0x000000b37f000000] [id=18284]
+  0x000001b955834800 ConcurrentGCThread "G1 Conc#0" [stack: 0x000000b37f000000,0x000000b37f100000] [id=6912]
+
+[error occurred during error reporting (printing all threads), id 0xe0000002]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x000001b95569ce00] Heap_lock - owner thread: 0x000001b9557a0000
+
+Heap address: 0x0000000082200000, size: 2014 MB, Compressed Oops mode: Non-zero based: 0x0000000082200000
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff6346a0000 - 0x00007ff6346de000 	C:\Program Files\Java\jdk-10.0.1\bin\java.exe
+0x00007fffdfba0000 - 0x00007fffdfd90000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007fffdf410000 - 0x00007fffdf4c2000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007fffdcb30000 - 0x00007fffdcdd3000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007fffdf230000 - 0x00007fffdf2d3000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007fffdde60000 - 0x00007fffddefe000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007fffdf910000 - 0x00007fffdf9a7000 	C:\WINDOWS\System32\sechost.dll
+0x00007fffddf00000 - 0x00007fffde020000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007fffde9a0000 - 0x00007fffdeb34000 	C:\WINDOWS\System32\USER32.dll
+0x00007fffdd800000 - 0x00007fffdd821000 	C:\WINDOWS\System32\win32u.dll
+0x00007fffdeb40000 - 0x00007fffdeb66000 	C:\WINDOWS\System32\GDI32.dll
+0x00007fffdd890000 - 0x00007fffdda24000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007fffddbb0000 - 0x00007fffddc4e000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007fffdd650000 - 0x00007fffdd74a000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007fffc8680000 - 0x00007fffc8905000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.18362.657_none_e6c5b579130e3898\COMCTL32.dll
+0x00007fffdf5c0000 - 0x00007fffdf8f6000 	C:\WINDOWS\System32\combase.dll
+0x00007fffd4810000 - 0x00007fffd481a000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007fffdcde0000 - 0x00007fffdce60000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007fffdf0d0000 - 0x00007fffdf0fe000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007fffcc380000 - 0x00007fffcc46f000 	C:\Program Files\Java\jdk-10.0.1\bin\msvcr120.dll
+0x00007fffcc2d0000 - 0x00007fffcc376000 	C:\Program Files\Java\jdk-10.0.1\bin\msvcp120.dll
+0x000000005cab0000 - 0x000000005d520000 	C:\Program Files\Java\jdk-10.0.1\bin\server\jvm.dll
+0x00007fffdf900000 - 0x00007fffdf908000 	C:\WINDOWS\System32\PSAPI.DLL
+0x00007fffc4400000 - 0x00007fffc4409000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007fffdeb70000 - 0x00007fffdebdf000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007fffd6430000 - 0x00007fffd6454000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007fffd6400000 - 0x00007fffd642d000 	C:\WINDOWS\SYSTEM32\WINMMBASE.dll
+0x00007fffdce60000 - 0x00007fffdceaa000 	C:\WINDOWS\System32\cfgmgr32.dll
+0x00007fffd0bf0000 - 0x00007fffd0bff000 	C:\Program Files\Java\jdk-10.0.1\bin\verify.dll
+0x00007fffd0340000 - 0x00007fffd0534000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007fffd0270000 - 0x00007fffd029a000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007fffcc2a0000 - 0x00007fffcc2c7000 	C:\Program Files\Java\jdk-10.0.1\bin\java.dll
+0x00007fffc0ec0000 - 0x00007fffc0ed6000 	C:\Program Files\Java\jdk-10.0.1\bin\zip.dll
+0x00007fffcc290000 - 0x00007fffcc29a000 	C:\Program Files\Java\jdk-10.0.1\bin\jimage.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Program Files\Java\jdk-10.0.1\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.18362.657_none_e6c5b579130e3898;C:\Program Files\Java\jdk-10.0.1\bin\server
+
+VM Arguments:
+jvm_args: -Dfile.encoding=UTF-8 -Duser.country=CN -Duser.language=zh -Duser.variant 
+java_command: mirai.RunMirai + +
+java_class_path (initial): D:\DEV\MiraiPlugins\finebot\build\classes\java\test;D:\DEV\MiraiPlugins\finebot\build\classes\kotlin\test;D:\DEV\MiraiPlugins\finebot\build\resources\test;D:\DEV\MiraiPlugins\finebot\build\classes\java\main;D:\DEV\MiraiPlugins\finebot\build\classes\kotlin\main;D:\DEV\MiraiPlugins\finebot\build\resources\main;C:\Users\haojie06\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-stdlib-jdk8\1.3.71\4defc79915cf4f78b49bbc4a8f1e80e87767a5b\kotlin-stdlib-jdk8-1.3.71.jar;C:\Users\haojie06\.gradle\caches\modules-2\files-2.1\net.mamoe\mirai-core-qqandroid\1.0-RC2-1\2cb6748d4a34453bacd43d48e2a8a547a1006852\mirai-core-qqandroid-1.0-RC2-1.jar;C:\Users\haojie06\.gradle\caches\modules-2\files-2.1\net.mamoe\mirai-core\1.0-RC2-1\c6dc362afb54fc918c75f509250411bd92e7cb1c\mirai-core-1.0-RC2-1.jar;C:\Users\haojie06\.gradle\caches\modules-2\files-2.1\net.mamoe\mirai-console\0.5.1\508a6653e77b87758f5ae5048da0f3e6cdd0e55\mirai-console-0.5.1.jar;C:\Users\haojie06\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-client-cio\1.3.2\815cd9c6acae2b4047d1f51d57d25f473192a851\ktor-client-cio-1.3.2.jar;C:\Users\haojie06\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-client-core-jvm\1.3.2\76ce735c0a4858239a9ed78bc1f7114a4969f8a7\ktor-client-core-jvm-1.3.2.jar;C:\Users\haojie06\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-http-cio-jvm\1.3.2\aeb203001dc089ec3ccc5f5c13ba9bf5ecf3f795\ktor-http-cio-jvm-1.3.2.jar;C:\Users\haojie06\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-http-jvm\1.3.2\ad2b30b1918b6d7363d2f494d17820398525c777\ktor-http-jvm-1.3.2.jar;C:\Users\haojie06\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-network-tls\1.3.2\856117d0e12b0037c9394e33fbe2a862f0c82f18\ktor-network-tls-1.3.2.jar;C:\Users\haojie06\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-network\1.3.2\13c7730588ca7449ad7711f9f4d65726bdf9660c\ktor-network-1.3.2.jar;C:\Users\haojie06\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-utils-jvm\1.3.2\ce8899d0039e9dbd371832d479bd4657c946
+Launcher Type: SUN_STANDARD
+
+Logging:
+Log output configuration:
+#0: stdout all=warning uptime,level,tags
+#1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=C:\Program Files (x86)\Java
+PATH=C:\Program Files (x86)\NetSarang\Xftp 6\;C:\Program Files (x86)\NetSarang\Xshell 6\;C:\Program Files (x86)\Common Files\Intel\OpenCL\windows\compiler\lib\intel64_win;C:\Program Files (x86)\Common Files\Intel\OpenCL\windows\compiler\lib\ia32_win;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\haojie06\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;D:\常用软件\;D:\;件\;:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\users\haojie06\appdata\local\programs\python\python36\Scripts;C:\WINDOWS\System32\OpenSSH\;C:\Users\haojie06\Desktop\platform-tools;C:\Program Files (x86)\Java\jdk\bin;C:\Program Files (x86)\Java\jre\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\bin;C:\Program Files\Git;C:\Program Files\mingw-w64\mingw64\bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;D:\kali\hashcatcodes;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files (x86)\ZeroTier\One\;D:\DEV\cocos2d-x-3.17.2\templates;D:\DEV\cocos2d-x-3.17.2\tools\cocos2d-console\bin;C:\Users\haojie06\AppData\Local\Programs\Python\Python36\Scripts\;C:\Users\haojie06\AppData\Local\Programs\Python\Python36\;D:\learn and dev\Scripts\;D:\learn and dev\;C:\Users\haojie06\AppData\Local\Microsoft\WindowsApps;C:\Users\haojie06\AppData\Local\GitHubDesktop\bin;D:\学习与开发\Fiddler;C:\Users\haojie06\AppData\Local\Microsoft\WindowsApps;D:\Microsoft VS Code\bin;C:\Users\haojie06\AppData\Roaming\npm;D:\DEV\QT5\5.9.9\mingw53_32\bin;
+USERNAME=haojie06
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10 , 64 bit Build 18362 (10.0.18362.329)
+
+CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 142 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx, fma
+
+Memory: 4k page, physical 8243596k(337388k free), swap 23733724k(5672k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (10.0.1+10) for windows-amd64 JRE (10.0.1+10), built on Mar 27 2018 02:27:48 by "mach5one" with MS VC++ 12.0 (VS2013)
+
+END.
