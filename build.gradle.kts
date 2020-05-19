@@ -30,6 +30,7 @@ dependencies {
     compile("com.google.code.gson:gson:2.8.6")
     compile("org.java-websocket:Java-WebSocket:1.5.1")
     compileOnly("junit:junit:4.13")
+    compile("javax.xml.bind:jaxb-api:2.3.0")
     testImplementation(kotlin("stdlib-jdk8"))
     testImplementation("net.mamoe:mirai-core:$miraiCoreVersion")
     testImplementation("net.mamoe:mirai-core-qqandroid:$miraiCoreVersion")

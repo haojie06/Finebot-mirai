@@ -5,10 +5,14 @@ WelcomeMap:
   '467102679': 欢迎加入审核群
 Admin:
 - 1092674760
-McPing: gl.aoyouer.com:19132
+McPing: sh.finemc.life:19132
 GameToGroup: true
 GroupToGame: true
 McPingTemplate: |-
   Fineserver在线查询
   在线人数{online}/{max}
   游戏版本:{version}
+WSPassword: fineserver
+WSGroupId:
+  - "981460659"
+  - "123"

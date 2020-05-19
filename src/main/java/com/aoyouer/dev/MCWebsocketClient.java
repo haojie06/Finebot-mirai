@@ -11,8 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import javax.xml.bind.DatatypeConverter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 public class MCWebsocketClient extends WebSocketClient {
@@ -49,6 +54,7 @@ public class MCWebsocketClient extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake handshakedata) {
         logger.info("连接已经打开");
+        group.sendMessage("Websocket连接已建立");
     }
 
     @Override
@@ -56,17 +62,22 @@ public class MCWebsocketClient extends WebSocketClient {
         logger.info("收到信息\n" + message);
         JsonObject msgObj = JsonParser.parseString(message).getAsJsonObject();
         String operate = msgObj.get("operate").getAsString();
-        String sender = msgObj.get("target").getAsString();
-        String msg = msgObj.get("text").getAsString();
         boolean gameToGroup = setting.getBoolean("GameToGroup");
         if (operate.equals("onmsg") && gameToGroup) {
             //聊天信息同步
+            String sender = msgObj.get("target").getAsString();
+            String msg = msgObj.get("text").getAsString();
             if (group != null) {
                 group.sendMessage("[游戏聊天]" + sender + ": " + msg);
             } else {
                 //debug使用
                 logger.info("聊天信息{}",message);
             }
+        }
+        else if (operate.equals("runcmd")){
+            String text = msgObj.get("text").getAsString();
+            if (!text.equals(""))
+                group.sendMessage("[命令返回]\n" + text);
         }
     }
 
@@ -83,5 +94,29 @@ public class MCWebsocketClient extends WebSocketClient {
     public static void main(String[] args) throws URISyntaxException {
         MCWebsocketClient websocketClient = new MCWebsocketClient(new URI("ws://192.168.0.200:255/fine"));
         websocketClient.connect();
+    }
+
+    public void groupToGame(String content,String type) {
+        String jsonTemp;
+        if (type.equals("chat")) {
+            jsonTemp = "{\"operate\":\"runcmd\",\"passwd\":\"{password}\",\"cmd\":\"{content}\"}";
+        } else {
+            jsonTemp = "{\"operate\":\"runcmd\",\"passwd\":\"{password}\",\"cmd\":\"{content}\"}";
+        }
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmm");//设置日期格式
+        String password = setting.getString("WSPassword") + df.format(new Date());
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] digest = md.digest();
+            String mdpasswd = DatatypeConverter.printHexBinary(digest).toUpperCase();
+            String sendData = jsonTemp.replace("{content}", content).replace("{password}", mdpasswd);
+            logger.info("发送的JSON：\n" + sendData);
+            send(sendData);
+        }catch (NoSuchAlgorithmException e){
+            logger.error("MD5加密出错");
+        } catch (Exception e){
+            logger.error("其他类型错误\n" + e.getMessage());
+        }
     }
 }

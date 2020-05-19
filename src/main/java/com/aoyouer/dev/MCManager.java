@@ -82,16 +82,20 @@ public class MCManager {
         });
     }
 
-    public void wsConnect(Group group) {
-        pluginBase.getScheduler().async(() -> {
+    public MCWebsocketClient wsConnect(Group group) {
+        //pluginBase.getScheduler().async(() -> {
             //建立Websocke连接
             try {
                 pluginBase.getLogger().info("尝试建立ws\n");
                 MCWebsocketClient webSocketClient = new MCWebsocketClient(new URI("ws://192.168.0.200:255/fine"),group,setting);
                 webSocketClient.connect();
+                return webSocketClient;
             } catch (Exception e) {
                 pluginBase.getLogger().error("建立ws连接出错\n" + e.getMessage());
+                return null;
             }
-        });
+       // });
+
     }
+
 }
