@@ -37,7 +37,7 @@ class FineBot extends PluginBase {
             if (!setting.getList("WSGroupId").contains(String.valueOf(event.getGroup().getId()))){
                 //首先要确定该插件在这个群可用
                 //return true;
-                event.getGroup().sendMessage("本群无法使用该插件");
+                //event.getGroup().sendMessage("本群无法使用该插件");
             }
             else {
             if (message.contains("加群测试")){
