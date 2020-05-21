@@ -52,6 +52,7 @@ public class BotSqlDatabase {
                     + "add_count int not null,"
                     + "history text not null);";
             statement.executeUpdate(sql);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,6 +98,8 @@ public class BotSqlDatabase {
 
                 }
             };
+
+            webSocketClient.connect();
         }catch (Exception e){e.printStackTrace();}
 
     }
@@ -275,7 +278,7 @@ public class BotSqlDatabase {
     }
 
     public void wsConnect(){
-        webSocketClient.connect();
+        webSocketClient.reconnect();
     }
 
      public static void main(String[] args) {
