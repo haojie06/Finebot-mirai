@@ -87,6 +87,9 @@ public class BotSqlDatabase {
                 @Override
                 public void onClose(int code, String reason, boolean remote) {
                     logger.info("关闭临时ws连接");
+                    if (group != null){
+                        group.sendMessage("WS连接已经断开，请不要再添加白名单");
+                    }
                 }
 
                 @Override
@@ -94,7 +97,6 @@ public class BotSqlDatabase {
 
                 }
             };
-            webSocketClient.connect();
         }catch (Exception e){e.printStackTrace();}
 
     }
@@ -185,19 +187,24 @@ public class BotSqlDatabase {
             //先查看此人是否已经添加过白名单了
             String sql = String.format("SELECT * FROM group_whitelist WHERE member_id=%d;", memberId);
             ResultSet rs = statement.executeQuery(sql);
-            if (!rs.next()){
+            if (!rs.next()) {
                 //添加白名单
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
                 String addTime = df.format(new Date());
                 sql = String.format("INSERT INTO group_whitelist (member_id,game_id,add_time,add_count,history) VALUES (%d,'%s','%s',%d,'%s')", memberId, gameId, addTime, 1, addTime + ":" + gameId + "\n");
                 //需要建立ws连接，执行命令，如果没执行成功就不要往数据库里添加东西了
-                executeWSCmd(String.format("whitelist add \\\"%s\\\"",gameId),group);
-                statement.executeUpdate(sql);
-                result = "已经为你添加白名单:" + gameId + "\n如果添加错误请输入“服务器 修改白名单”，如果依旧无法进入请联系服主\n";
+                if (webSocketClient.isOpen()) {
+                    executeWSCmd(String.format("whitelist add \\\"%s\\\"", gameId), group);
+                    statement.executeUpdate(sql);
+                    result = "已经为你添加白名单:" + gameId + "\n如果添加错误请输入“服务器 修改白名单”，如果依旧无法进入请联系服主\n";
+                }
+                else {
+                    result = "Websocket连接未建立，请稍后再添加白名单";
+                }
             }
             else {
                 //已经添加过白名了，请使用修改白名单指令
-                result = "用户" + memberId + "已经添加过白名单:" + rs.getString("game_id") + "历史添加:\n" + rs.getString("history") + "\n请使用 “服务器 修改白名单” 来修改当前绑定的白名单";
+                result = "用户" + memberId + "已经添加过白名单:" + rs.getString("game_id") + "\n历史添加:\n" + rs.getString("history") + "\n请使用 “服务器 修改白名单” 来修改当前绑定的白名单";
             }
         }catch (Exception e){e.printStackTrace();}
         return result;
@@ -226,11 +233,15 @@ public class BotSqlDatabase {
                 int count = rs.getInt("add_count") + 1;
                 String history = rs.getString("history") + editTime + ":" + gameId + "\n";
                 sql = String.format("UPDATE group_whitelist set game_id='%s',add_time='%s',add_count=%d,history='%s' where member_id=%d", gameId, editTime, count, history, memberId );
-                statement.executeUpdate(sql);
-                executeWSCmd(String.format("whitelist remove \\\"%s\\\"",oldId),group);
-                executeWSCmd(String.format("whitelist add \\\"%s\\\"",gameId),group);
-                result = "已经为你将白名单从" + oldId + "修改为" + gameId + "\n历史添加:\n" + history;
-
+                if (webSocketClient.isOpen()) {
+                    statement.executeUpdate(sql);
+                    executeWSCmd(String.format("whitelist remove \\\"%s\\\"", oldId), group);
+                    executeWSCmd(String.format("whitelist add \\\"%s\\\"", gameId), group);
+                    result = "已经为你将白名单从" + oldId + "修改为" + gameId + "\n历史添加:\n" + history;
+                }
+                else {
+                    result = "Websocket连接未建立，请稍后再添加白名单";
+                }
             }
 
         }catch (Exception e){
@@ -261,6 +272,10 @@ public class BotSqlDatabase {
             logger.error("其他类型错误\n" + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public void wsConnect(){
+        webSocketClient.connect();
     }
 
      public static void main(String[] args) {

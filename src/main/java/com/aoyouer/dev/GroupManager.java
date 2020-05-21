@@ -66,6 +66,13 @@ public class GroupManager {
                     event.getSubject().sendMessage(result);
                 }
             }
+            else if (msg.equals("白名单ws连接")) {
+                if (!PermissionController.check(event.getSender(), MemberPermission.ADMINISTRATOR)) {
+                    event.getSubject().sendMessage("您无权限执行该命令");
+                } else {
+                    botSqlDatabase.wsConnect();
+                }
+            }
         });
     }
     public void testMemberJoinWelcome(MessageEvent event){

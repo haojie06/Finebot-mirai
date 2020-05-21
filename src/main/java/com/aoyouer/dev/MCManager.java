@@ -71,12 +71,13 @@ public class MCManager {
             String message = event.getMessage().contentToString();
             //首先要确定该插件在这个群可用
             if (setting.getList("WSGroupId").contains(String.valueOf(event.getGroup().getId()))) {
-                if (message.contains("建立ws连接")) {
+                if (message.contains("消息ws连接")) {
                     if (!PermissionController.check(event.getSender(), MemberPermission.ADMINISTRATOR)) {
                         event.getSubject().sendMessage("您无权限执行该命令");
-                        return;
                     }
-                    mcWebsocketClient = this.wsConnect(event.getGroup());
+                    else {
+                        mcWebsocketClient = this.wsConnect(event.getGroup());
+                    }
                 }
                 else if (message.contains("游戏消息同步开启")) {
                     if (!PermissionController.check(event.getSender(), MemberPermission.ADMINISTRATOR)) {
