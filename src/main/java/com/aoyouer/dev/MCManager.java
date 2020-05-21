@@ -1,21 +1,26 @@
 package com.aoyouer.dev;
 
+import com.aoyouer.dev.utils.PermissionController;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.mamoe.mirai.console.command.BlockingCommand;
 import net.mamoe.mirai.console.command.CommandSender;
 import net.mamoe.mirai.console.command.JCommandManager;
+import net.mamoe.mirai.console.events.EventListener;
 import net.mamoe.mirai.console.plugins.Config;
 import net.mamoe.mirai.console.plugins.PluginBase;
 import net.mamoe.mirai.console.utils.Utils;
 import net.mamoe.mirai.contact.Group;
+import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.event.BroadcastControllable;
 import net.mamoe.mirai.event.Event;
 import net.mamoe.mirai.message.GroupMessageEvent;
+import net.mamoe.mirai.utils.MiraiLogger;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
+import org.slf4j.helpers.SubstituteLoggerFactory;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -27,11 +32,14 @@ public class MCManager {
     private Config setting;
     private PluginBase pluginBase;
     private String McPingAPI = "https://api-mping.loliboy.com/ping/{address}/{port}";
-
-    public MCManager(Config setting, PluginBase pluginBase) {
+    private MCWebsocketClient mcWebsocketClient;
+    private EventListener eventListener;
+    private MiraiLogger logger;
+    public MCManager(Config setting, PluginBase pluginBase, EventListener eventListener) {
         this.setting = setting;
         this.pluginBase = pluginBase;
-
+        this.eventListener = eventListener;
+        logger = pluginBase.getLogger();
         JCommandManager.getInstance().register(pluginBase, new BlockingCommand("mcping", new ArrayList<>(), "设置mcping的对象", "/mcping set") {
             @Override
             public boolean onCommandBlocking(@NotNull CommandSender commandSender, @NotNull List<String> list) {
@@ -55,6 +63,69 @@ public class MCManager {
                     return false;
                 }
 
+            }
+        });
+
+        //命令监听部分
+        eventListener.subscribeAlways(GroupMessageEvent.class,(GroupMessageEvent event)->{
+            String message = event.getMessage().contentToString();
+            //首先要确定该插件在这个群可用
+            if (setting.getList("WSGroupId").contains(String.valueOf(event.getGroup().getId()))) {
+                if (message.contains("建立ws连接")) {
+                    if (!PermissionController.check(event.getSender(), MemberPermission.ADMINISTRATOR)) {
+                        event.getSubject().sendMessage("您无权限执行该命令");
+                        return;
+                    }
+                    mcWebsocketClient = this.wsConnect(event.getGroup());
+                }
+                else if (message.contains("游戏消息同步开启")) {
+                    if (!PermissionController.check(event.getSender(), MemberPermission.ADMINISTRATOR)) {
+                        event.getSubject().sendMessage("您无权限执行该命令");
+                        return;
+                    }
+                    event.getGroup().sendMessage("已开启游戏消息同步");
+                    //开启消息同步并且把当前的群传过去
+                    setting.set("GameToGroup", true);
+                    setting.save();
+                } else if (message.contains("游戏消息同步关闭")) {
+                    if (!PermissionController.check(event.getSender(), MemberPermission.ADMINISTRATOR)) {
+                        event.getSubject().sendMessage("您无权限执行该命令");
+                        return;
+                    }
+                    setting.set("GameToGroup", false);
+                    setting.save();
+                    event.getGroup().sendMessage("已关闭游戏消息同步");
+                }
+                else if (message.contains("服务器 在线")){
+                    this.getMcPingInfo(event);
+                }
+                else {
+                    //获取消息第一个字母 判断是向服务器输出指令还是聊天
+                    //另外还要限定群号
+                    char firstChar = message.charAt(0);
+                    if (firstChar == '#') {
+                        if (mcWebsocketClient == null) {
+                            event.getGroup().sendMessage("请先建立ws连接");
+                            return;
+                        }
+                        logger.info("向游戏中发送聊天信息");
+                        String contentTemp = "tellraw @a {\\\"rawtext\\\":[{\\\"text\\\":\\\"§6[QQ群信息]§f{sender}: {content}\\\"}]}";
+                        String msg = contentTemp.replace("{sender}", event.getSender().getNameCard()).replace("{content}", message.substring(1));
+                        mcWebsocketClient.groupToGame(msg, "chat");
+                    } else if (firstChar == '%') {
+                        if (!PermissionController.check(event.getSender(), MemberPermission.ADMINISTRATOR)) {
+                            event.getSubject().sendMessage("您无权限执行该命令");
+                            return;
+                        }
+                        if (mcWebsocketClient == null) {
+                            event.getGroup().sendMessage("请先建立ws连接");
+                            return;
+                        }
+                        logger.info("向游戏中发送指令");
+                        String content = message.substring(1, message.length());
+                        mcWebsocketClient.groupToGame(content, "cmd");
+                    }
+                }
             }
         });
     }

@@ -63,12 +63,22 @@ public class MCWebsocketClient extends WebSocketClient {
         JsonObject msgObj = JsonParser.parseString(message).getAsJsonObject();
         String operate = msgObj.get("operate").getAsString();
         boolean gameToGroup = setting.getBoolean("GameToGroup");
-        if (operate.equals("onmsg") && gameToGroup) {
+        if (operate.equals("onmsg")) {
             //聊天信息同步
             String sender = msgObj.get("target").getAsString();
             String msg = msgObj.get("text").getAsString();
             if (group != null) {
-                group.sendMessage("[游戏聊天]" + sender + ": " + msg);
+                //即使关闭了游戏消息同步，但是如果聊天信息是以#开头的话，还是可以同步到群离
+                if (gameToGroup) {
+                    group.sendMessage("[游戏聊天]" + sender + ": " + msg);
+                }
+                else{
+                    //获取首字符
+                    String firstChar = msg.substring(0,1);
+                    if (firstChar.equals("#")){
+                        group.sendMessage("[游戏聊天主动发送]" + sender + ": " + msg.substring(1,msg.length()));
+                    }
+                }
             } else {
                 //debug使用
                 logger.info("聊天信息{}",message);

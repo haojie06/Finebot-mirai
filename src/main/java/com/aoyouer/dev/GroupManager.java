@@ -16,7 +16,6 @@ import java.util.Map;
 public class GroupManager {
     private ConfigSection notifySection;
     private EventListener eventListener;
-
     public GroupManager(ConfigSection notifySection, EventListener eventListener) {
         this.notifySection = notifySection;
         this.eventListener = eventListener;
