@@ -14,5 +14,36 @@ McPingTemplate: |-
   游戏版本:{version}
 WSPassword: fineserver
 WSGroupId:
-  - "981460659"
-  - "123"
+- '981460659'
+- '123'
+HelperGroupId:
+- '981460659'
+- '123'
+QuestionAlias:
+  ip是什么: ip
+  ip: ip
+  IP是什么: ip
+  服务器ip: ip
+  地址是什么: ip
+  怎么进服务器: ip
+  材质包卡住: 材质包卡住
+  插件怎么用: 插件帮助
+  帮助: 获取帮助
+  群管理帮助: 群管理模块
+  服务器相关帮助: 服务器模块
+QuestionMap:
+  获取帮助: |-
+    输入下列信息获取帮助
+    1.群管理帮助
+    2.服务器相关帮助
+  ip: "游戏线路: \n 上海:sh.finemc.life:19132 \n 杭州:hz.finemc.life:19132\n 香港: hk.finemc.life:19132"
+  材质包卡住: 如果卡在材质包下载界面请先从群文件里下载fiercemao.mcaddon
+  插件帮助: '插件使用帮助: https://uxvillas.com/bdx-plugin'
+  群管理模块: 好像还没啥功能...
+  服务器模块: |-
+    1.输入建立ws连接来建立与Minecraft服务器之间的Websocket连接
+    2.输入游戏消息同步开启来自动同步游戏中的聊天内容
+    3.输入游戏消息同步关闭来停止自动推送
+    4.群聊中以#开头的信息会发送到游戏中
+    5.群聊中以%开头的信息会被当成指令执行
+    6.输入服务器 在线可以 查询游戏在线人数

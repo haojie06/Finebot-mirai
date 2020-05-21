@@ -28,10 +28,11 @@ class FineBot extends PluginBase {
         getLogger().info("FineGroupBot enabled~~~~");
         EventListener eventListener = this.getEventListener();
         //注册群管理模块
-        GroupManager groupManager = new GroupManager(this.setting.getConfigSection("WelcomeMap"),eventListener);
+        GroupManager groupManager = new GroupManager(this.setting.getConfigSection("WelcomeMap"),eventListener,setting);
         //群帮手对象
         GroupHelper groupHelper = new GroupHelper(eventListener,setting);
         //MC服务器相关对象
         MCManager mcManager = new MCManager(setting,this,eventListener);
+
     }
 }

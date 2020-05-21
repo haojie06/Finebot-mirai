@@ -2,11 +2,13 @@ package com.aoyouer.dev;
 
 import com.aoyouer.dev.utils.PermissionController;
 import net.mamoe.mirai.console.events.EventListener;
+import net.mamoe.mirai.console.plugins.Config;
 import net.mamoe.mirai.console.plugins.ConfigSection;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.event.events.MemberJoinEvent;
 import net.mamoe.mirai.event.events.MemberLeaveEvent;
+import net.mamoe.mirai.message.GroupMessageEvent;
 import net.mamoe.mirai.message.MessageEvent;
 import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.MessageUtils;
@@ -16,9 +18,12 @@ import java.util.Map;
 public class GroupManager {
     private ConfigSection notifySection;
     private EventListener eventListener;
-    public GroupManager(ConfigSection notifySection, EventListener eventListener) {
+    private Config setting;
+    private BotSqlDatabase botSqlDatabase;
+    public GroupManager(ConfigSection notifySection, EventListener eventListener,Config setting) {
         this.notifySection = notifySection;
         this.eventListener = eventListener;
+        botSqlDatabase = new BotSqlDatabase(setting);
         //对加群事件做出响应
         eventListener.subscribeAlways(MemberJoinEvent.class,(event)->{
             //根据群号不同提示也不同
@@ -26,7 +31,8 @@ public class GroupManager {
             System.out.println("有人加群");
             if (notifySection.containsKey(groupId)){
                 String notifyMsg = notifySection.getString(groupId);
-                event.getGroup().sendMessage(MessageUtils.newChain(new At(event.getMember())).plus(notifyMsg));
+                String joinResult = botSqlDatabase.joinGroup(event.getMember());
+                event.getGroup().sendMessage(MessageUtils.newChain(new At(event.getMember())).plus(notifyMsg).plus(joinResult));
             }
             else{
                 event.getGroup().sendMessage(MessageUtils.newChain(new At(event.getMember())).plus(event.getMember().getNick() + "加入本群"));
@@ -35,7 +41,31 @@ public class GroupManager {
         });
 
         eventListener.subscribeAlways(MemberLeaveEvent.class,(MemberLeaveEvent event)->{
-            event.getGroup().sendMessage(event.getMember().getNameCard() + "离开了我们");
+            String result = botSqlDatabase.leavGroup(event.getMember(),event.getGroup());
+            event.getGroup().sendMessage(event.getMember().getNick() + "离开了我们\n" + result);
+        });
+
+        eventListener.subscribeAlways(GroupMessageEvent.class,(GroupMessageEvent event)->{
+            String msg = event.getMessage().contentToString();
+            if (msg.equals("服务器 添加白名单")) {
+                String nameCard = event.getSender().getNameCard();
+                if (nameCard.equals("")) {
+                    event.getSubject().sendMessage("暂时无法获取群名片，请修改群名片或者等一会再添加");
+                } else {
+                    String result = botSqlDatabase.addWhitelist(event.getSender().getId(), event.getSender().getNameCard(),event.getGroup());
+                    event.getSubject().sendMessage(result);
+                }
+            }
+            else if (msg.equals("服务器 修改白名单")){
+                String nameCard = event.getSender().getNameCard();
+                if (nameCard.equals("")) {
+                    event.getSubject().sendMessage("暂时无法获取群名片，请修改群名片或者等一会再添加");
+                }
+                else {
+                    String result = botSqlDatabase.changeWhitelist(event.getSender().getId(),event.getSender().getNameCard(),event.getGroup());
+                    event.getSubject().sendMessage(result);
+                }
+            }
         });
     }
     public void testMemberJoinWelcome(MessageEvent event){

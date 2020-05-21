@@ -31,6 +31,8 @@ public class MCWebsocketClient extends WebSocketClient {
         this.setting = setting;
     }
 
+
+
     public MCWebsocketClient(URI serverUri) {
         super(serverUri);
     }
@@ -80,7 +82,7 @@ public class MCWebsocketClient extends WebSocketClient {
                     }
                 }
             } else {
-                //debug使用
+                //如果使用的是不带group的构造方法
                 logger.info("聊天信息{}",message);
             }
         }
@@ -93,7 +95,7 @@ public class MCWebsocketClient extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-
+        logger.info("关闭ws连接");
     }
 
     @Override
@@ -107,12 +109,7 @@ public class MCWebsocketClient extends WebSocketClient {
     }
 
     public void groupToGame(String content,String type) {
-        String jsonTemp;
-        if (type.equals("chat")) {
-            jsonTemp = "{\"operate\":\"runcmd\",\"passwd\":\"{password}\",\"cmd\":\"{content}\"}";
-        } else {
-            jsonTemp = "{\"operate\":\"runcmd\",\"passwd\":\"{password}\",\"cmd\":\"{content}\"}";
-        }
+        String jsonTemp = "{\"operate\":\"runcmd\",\"passwd\":\"{password}\",\"cmd\":\"{content}\"}";
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmm");//设置日期格式
         String password = setting.getString("WSPassword") + df.format(new Date());
         try {
